@@ -4,6 +4,7 @@
 
 ### Added
 
+- Screenshot-based usage guide with installation steps and development-release limitations.
 - Shared release version and build number files for app metadata, About, and distribution archive names.
 - Native Swift menu-bar application for Finder window placement and view rules.
 - Eligible Finder-dialog placement on the primary display.
