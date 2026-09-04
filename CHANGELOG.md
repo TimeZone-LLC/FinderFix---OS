@@ -21,6 +21,7 @@
 
 ### Fixed
 
+- Closing Settings keeps FinderFix running in the menu bar and cancels queued window activation. Reopening cannot be hidden by an earlier close callback.
 - Existing windows no longer become placement candidates through focus events or delayed creation notifications after the initial window scan.
 - Accessibility status now refreshes automatically after permission changes, even when the menu-bar app does not receive an activation event.
 - Focus Follows Pointer no longer inspects FinderFix's own SwiftUI window from its Accessibility worker, preventing a settings-window deadlock while applying rules.

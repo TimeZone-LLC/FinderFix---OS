@@ -70,6 +70,10 @@ final class FinderFixAppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
 
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        false
+    }
+
     func applicationWillTerminate(_ notification: Notification) {
         accessibilityRefreshTask?.cancel()
         accessibilityRefreshTask = nil

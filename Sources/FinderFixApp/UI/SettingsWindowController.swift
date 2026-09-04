@@ -3,6 +3,8 @@ import SwiftUI
 
 @MainActor
 final class SettingsWindowController: NSWindowController, NSWindowDelegate {
+    private var presentationID: UUID?
+
     init(rootView: SettingsRootView) {
         let hostingController: NSHostingController<SettingsRootView> = NSHostingController(rootView: rootView)
         // The window owns its size constraints below. Automatic hosting sizing can
@@ -29,17 +31,24 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
 
     func present() {
         guard let window: NSWindow else { return }
+        let requestID: UUID = UUID()
+        presentationID = requestID
         NSApplication.shared.setActivationPolicy(.regular)
         showWindow(nil)
         window.makeKeyAndOrderFront(nil)
-        DispatchQueue.main.async { [weak window] in
+        DispatchQueue.main.async { [weak self, weak window] in
+            guard self?.presentationID == requestID,
+                  let window: NSWindow,
+                  window.isVisible else { return }
             NSApplication.shared.activate(ignoringOtherApps: true)
-            window?.makeKeyAndOrderFront(nil)
+            window.makeKeyAndOrderFront(nil)
         }
     }
 
     func windowWillClose(_ notification: Notification) {
-        DispatchQueue.main.async {
+        presentationID = nil
+        DispatchQueue.main.async { [weak self] in
+            guard let self, self.presentationID == nil else { return }
             NSApplication.shared.setActivationPolicy(.accessory)
         }
     }
